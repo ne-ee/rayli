@@ -1,0 +1,20 @@
+# Ignore everything by default
+*
+
+# But do not ignore directories (so Git can traverse them)
+!*/
+
+# Allow specific source file types
+!*.tcl
+!*.v
+!*.sv
+!*.vhd
+!*.vhdl
+!*.c
+!*.py
+!*.sh
+!*.xml
+!*.xci
+!*.h
+!*.cpp
+!*.gitignore
