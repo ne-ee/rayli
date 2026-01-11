@@ -1,4 +1,6 @@
 
+
+
 module tb;
    
   timeunit 1ns;
@@ -12,7 +14,13 @@ module tb;
   always #5 clk = ~clk; // 100 MHz
 
   int cycle;
-  int unsigned stim;
+  int signed stim;
+  logic signed [16:0] x;
+  logic signed [16:0] xq[$];
+  logic [15:0]       cnt = 0;
+   
+   
+   
 
   initial begin
     cycle = 0;
@@ -25,9 +33,16 @@ module tb;
     // INSERT DATA GENERATION BLOCK HERE
     //////////////////////////////////////////
      
-    repeat (20) begin
+    repeat (1000) begin
       @(posedge clk);
       stim = py_get(cycle);
+      cnt = cnt + 1;
+       
+      if (xq.size() > 100) begin
+	 
+      end
+      x = stim;
+      xq.push_back(x);
       $display("cycle=%0d stim=%0d (0x%08x)", cycle, stim, stim);
       cycle++;
     end

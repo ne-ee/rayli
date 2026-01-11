@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # ----------------------------
 # Grid and simulation params
 # ----------------------------
-Nx, Ny = 400, 400       # grid size
+Nx, Ny = 400, 400     # grid size
 dx = dy = 1.0           # spatial step
 dt = 0.3                # time step (keep small for stability)
 n_steps = 1600          # number of time steps
@@ -19,8 +19,8 @@ K   = np.ones((Nx, Ny))      # stiffness / bulk modulus field
 xg, yg = np.meshgrid(np.arange(Nx), np.arange(Ny), indexing="ij")
 mask = (xg - Nx/2)**2 + (yg - Ny/2)**2 < 40**2
 
-K[mask]   = 2.0   # stiffer blob
-rho[mask] = 1.5   # denser blob
+#K[mask]   = 2.0   # stiffer blob
+rho[mask] = 4.5   # denser blob
 
 # ----------------------------
 # Wavefield arrays
@@ -39,6 +39,12 @@ u_prev[:] = u0
 # ----------------------------
 plt.ion()
 fig, ax = plt.subplots()
+
+# -----------------------------
+# Boundary 
+# -----------------------------
+b_depth = 20
+acoustic_imp_rmp = np.arange(1, b_depth+1)**2
 
 for n in range(n_steps):
     # Face-averaged K (stiffness) in x and y directions
@@ -76,11 +82,11 @@ for n in range(n_steps):
     # Time update:  rho * u_tt = L   u_tt = L / rho
     u_next = 2*u - u_prev + dt**2 * (L / rho)
 
-    # Simple fixed boundary conditions
-    u_next[0, :]   = 0
-    u_next[-1, :]  = 0
-    u_next[:, 0]   = 0
-    u_next[:, -1]  = 0
+    # # Simple fixed boundary conditions
+    # u_next[0, :]   = 0
+    # u_next[-1, :]  = 0
+    # u_next[:, 0]   = 0
+    # u_next[:, -1]  = 0
 
     # Rotate time levels
     u_prev, u = u, u_next
